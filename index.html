@@ -14,10 +14,15 @@
             document.getElementById("lbQfapiVersion").hidden = !useQfapi;
         }
 
+        function displayQSLVersionSelector(langIsJava) {
+            document.getElementById("qkl_config_div").hidden = langIsJava
+        }
+
         window.onload = () => {
             init_versions();
 
-            displayQFAPIVersionSelector(document.getElementById("useQfapi").checked);
+            displayQFAPIVersionSelector(true);
+            displayQSLVersionSelector(true)
 
             document.getElementById("mcVersion").addEventListener("change", () =>
                 reload_q_dpendencies_list(event.target.value)
@@ -26,6 +31,10 @@
             document.getElementById("mcStable").addEventListener("change", () => reload_mc_versions(event.target.checked));
 
             document.getElementById("useQfapi").addEventListener("change", () => displayQFAPIVersionSelector(event.target.checked));
+
+            document.getElementById("java").addEventListener("change", () => displayQSLVersionSelector(event.target.checked));
+
+            document.getElementById("kt").addEventListener("change", () => displayQSLVersionSelector(!event.target.checked));
 
             document.getElementById("gen").addEventListener("click", gen_and_download_zip);
         }
@@ -101,6 +110,16 @@
 
         <label for="useMixins">Use Mixins?</label>
         <input id="useMixins" type="checkbox" checked />
+
+        <div id="language">
+            <label for="language">Language:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <input id="java" type="radio" name="language" checked/><label for="java">Java&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <input id="kt" type="radio" name="language"/><label for="kt">Kotlin&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <div id="qkl_config_div">
+                <label for="qkl_selector">Quilt Kotlin Libraries (QKL) Version</label>
+                <select id="qkl_selector"></select>
+            </div>
+        </div>
 
         <details id="optional_settings">
             <summary>
